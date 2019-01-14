@@ -2,6 +2,7 @@ package javaforQA;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /*
@@ -18,6 +19,7 @@ import org.junit.Test;
  */
 public class Lession05 {
 	class myNumber {
+		//thuoc tinh 
 		public int[] number;
 
 		// khoi tao
@@ -32,13 +34,32 @@ public class Lession05 {
 		 */
 
 		public ArrayList Get_SoChan() {
-			ArrayList soChan = new ArrayList();
+			//cần lặp từ 0 đến number, mỗi lần lặp kiểm tra số tại ví trí lặp
+			//nếu  chia hết cho 2 thì lưu lại 
+			ArrayList soChan = new ArrayList(); //để lưu kq kiểm tra 
 			for (int i = 0; i < number.length; i++) {
 				if (i % 2 == 0) {
 					soChan.add(number[i]);
 				}
 			}
 			return soChan;
+
+		}
+		// Test get so chan
+
+		@Test
+		public void Test_Get_SoChan() {
+			// Arrange
+			int[] cacsoChan = {  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10  };
+			myNumber myNum = new myNumber(cacsoChan);
+
+			// Action
+			ArrayList listchan = myNum.Get_SoChan();
+
+			//Assertion 
+			Assert.assertEquals(5, listchan.size());
+			Assert.assertEquals(2, listchan.get(2));
+			Assert.assertEquals(8, listchan.get(listchan.size() - 1));
 
 		}
 
@@ -57,55 +78,80 @@ public class Lession05 {
 			return soLe;
 
 		}
+		// Test get so le
 
+		@Test
+		public void Test_Get_SoLe() {
+			// Arrange
+			int[] cacsoLe = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+			myNumber myNum = new myNumber(cacsoLe);
+
+			// action
+			ArrayList listle = myNum.Get_SoLe();
+			// Assertion
+			Assert.assertEquals(5, listle.size());
+			Assert.assertEquals(1, listle.get(0));
+			Assert.assertEquals(9, listle.get(listle.size() - 1));
+		}
+		
+		
+		
 		// tinh tong vi tri tuong ung
-
-		public double Get_SoTongHop() {
-			int[] number;
-			int soChan;
-			int soLe;
-			double tong = 0;
-			for (int i = 0; i < number.length; i++) {
-				tong = tong + number[soChan][soLe];
-				return tong;
+		
+		public ArrayList Get_Sum() {
+			//lay mang? chan~
+			// lay mang? le?
+			// them 0 vao mang ngan hon 
+			// cong. cac phan tu tuong ung
+			
+			ArrayList sochan = this.Get_SoChan();
+			ArrayList sole = this.Get_SoLe();
+			
+			//kiem tra neu so chan . size ma nho hon so le.size thi them 0 vao
+			
+			if (sochan.size() < sole.size()) {
+				for (int i = sochan.size(); i < sole.size(); i++) {
+					sochan.add(0);
+					
+				}
 			}
+			else {
+				for (int i = sole.size(); i < sochan.size(); i++) {
+					sole.add(0);
+					
+				}
+			}
+			
+			//tinh tong
+			ArrayList sum = new ArrayList();
+			for (int i = 0; i < sole.size() ; i ++) {
+				int tong = (int) sole.get(i) + (int) sochan.get(i);
+				
+				sum.add(tong);
+			}
+			return sum;
 		}
+
+		//Test
+		
+		
+		
 	}
 
-	// Test get so chan
-
 	@Test
-	public void Test_Get_SoChan() {
+	public void Test_Sum() {
 		// Arrange
-		int[] cacsoChan = { 1, 2, 3, 4, 5, 6, 7, 8 };
-		myNumber myNum = new myNumber(cacsoChan);
-
-		// Action
-		ArrayList listchan = new ArrayList();
-
-		for (int i = 0; i < listchan.size(); i++) {
-			if (i % 2 == 0) {
-				System.out.println(listchan.get(i));
-			}
-		}
-
-	}
-
-	// Test get so le
-
-	@Test
-	public void Test_Get_SoLe() {
-		// Arrange
-		int[] cacsoLe = { 1, 2, 3, 4, 5, 6, 7, 8 };
+		int[] cacsoLe = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		myNumber myNum = new myNumber(cacsoLe);
 
 		// action
-		ArrayList listle = new ArrayList();
-
-		for (int j = 0; j < listle.size(); j++) {
-			if (j % 2 != 0) {
-				System.out.println(listle.get(j));
-			}
+		ArrayList listsum = myNum.Get_Sum();
+		// Assertion
+		
+		for (int i =0; i < listsum.size(); i++) {
+			System.out.println(listsum.get(i));
 		}
 	}
+
+
 }
